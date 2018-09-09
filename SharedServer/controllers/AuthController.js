@@ -8,18 +8,20 @@ var bcrypt = require('bcryptjs');
 var config = require('../modules/config');
 var db = require('../modules/databaseManager');
 
-router.post('/register/', function(req, res) {
-	db.db.any('select * from users where name =\''+req.body.user + '\')')
+router.post('/login/', function(req, res,next) {
+	db.db.one('select * from users where id ='+req.body.id)
 	.then(function (data) {
 		 // create a token
-    var token = jwt.sign({ id: data.user }, config.secret, {
+    var token = jwt.sign({ id: data.id }, config.secret, {
       expiresIn: 86400 // expires in 24 hours
     });
 
 		 res.status(200).json({
 			auth: true, token: token
 		});
-});
+}).catch(function(err) {
+		res.status(400).send();
+		});
 });
 
 
