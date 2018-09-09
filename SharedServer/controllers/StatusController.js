@@ -1,9 +1,9 @@
+var db = require('../modules/databaseManager');
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource'+ process.env.DATABASE_URL );
+	res.json({"message": "Server up!"});
 });
 
 module.exports = router;

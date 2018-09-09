@@ -13,20 +13,7 @@ var db = pgp(connectionString);
 //add query functions
 
 module.exports = {
-	test: test
+	//test: test
+	db : db
 };
 
-function test(req,res,next) {
-	db.any('select 23')
-	.then(function (data) {
-		res.status(200)
-		.json({
-			status: 'success',
-			data: data,
-			message: 'Retrieved query'
-		});
-	})
-	.catch(function(err){
-		return next(err);
-	});
-}
