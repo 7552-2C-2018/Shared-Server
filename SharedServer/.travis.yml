@@ -1,2 +1,10 @@
 language: node_js
-node_js: "node"
+node_js:
+  - "stable"
+
+before_install:
+      - npm i
+
+cache:
+  directories:
+    - "node_modules"

@@ -30,7 +30,7 @@ router.post('/:serverId', VerifyToken, function(req, res, next) {
 });
 
 router.delete('/:serverId', VerifyToken, function(req, res, next) {
-	db.db.any('delete from users where id = '+req.body.id+')
+	db.db.any('delete from users where id = '+req.body.idd)
 	.then(function (data) {
 
 		 res.status(200).json({
