@@ -2,13 +2,8 @@ language: node_js
 node_js:
   - "stable"
 
-install:
+before_install:
         - npm i -g
 
-before_script:
-        - sleep 5
-
 script:
-        - mocha /test/*
-
-        
+        - npm test

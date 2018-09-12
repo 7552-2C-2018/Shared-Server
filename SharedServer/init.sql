@@ -42,6 +42,12 @@ CREATE TABLE public.tabla (
 );
 
 
+ALTER TABLE public.tabla OWNER TO event;
+
+--
+-- Data for Name: tabla; Type: TABLE DATA; Schema: public; Owner: event
+--
+
 COPY public.tabla (campo) FROM stdin;
 \.
 
