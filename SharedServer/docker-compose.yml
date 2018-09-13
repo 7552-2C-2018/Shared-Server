@@ -1,0 +1,33 @@
+version: '3'
+services:
+  web:
+    build: 
+        context: .
+        dockerfile: Dockerfile.server
+
+    command: npm start 
+    volumes:
+      - .:/sharedServer/ 
+      - /sharedServer/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+            #DATABASE_URL: postgres://admin:admin@postgres:5432/sharedserverdb
+            DATABASE_URL: postgres://ialvwdrorunhcr:5268cff7a31f61d347fa2129f5048c14bb2a3d47eca51bad9fd2927ef69f4f33@ec2-54-225-76-201.compute-1.amazonaws.com:5432/dellgcggp24vts
+            SECRET: secret
+
+  postgres:
+          #image: postgres:9.6.2-alpi
+          build: 
+                context: .
+                dockerfile: Dockerfile.postgre
+          
+          restart: always
+          environment:
+                POSTGRES_USER: admin
+                POSTGRES_PASSWORD: admin
+                POSTGRES_DB: sharedserverdb
+          ports:
+               - "5435:5432"
