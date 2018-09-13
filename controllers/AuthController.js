@@ -9,6 +9,7 @@ var config = require('../modules/config');
 var db = require('../modules/databaseManager');
 
 router.post('/login/', function(req, res,next) {
+	console.log('id:' + req.body.id);
 	db.db.one('select * from users where id ='+req.body.id)
 	.then(function (data) {
 		 // create a token

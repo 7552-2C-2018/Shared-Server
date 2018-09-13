@@ -14,8 +14,8 @@ services:
     depends_on:
       - postgres
     environment:
-            #DATABASE_URL: postgres://admin:admin@postgres:5432/sharedserverdb
-            DATABASE_URL: postgres://ialvwdrorunhcr:5268cff7a31f61d347fa2129f5048c14bb2a3d47eca51bad9fd2927ef69f4f33@ec2-54-225-76-201.compute-1.amazonaws.com:5432/dellgcggp24vts
+            DATABASE_URL: postgres://admin:admin@postgres:5432/sharedserverdb
+            #            DATABASE_URL: postgres://ialvwdrorunhcr:5268cff7a31f61d347fa2129f5048c14bb2a3d47eca51bad9fd2927ef69f4f33@ec2-54-225-76-201.compute-1.amazonaws.com:5432/dellgcggp24vts
             SECRET: secret
 
   postgres:

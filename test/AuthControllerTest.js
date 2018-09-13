@@ -5,7 +5,7 @@ var supertest = require('supertest');
 const expect = require('chai').expect;
 
 chai.use(chaiHttp);
-const url= 'http://localhost:3000/api/auth/';
+const url= 'http://localhost:3000/api/auth';
 
 describe('POST api/auth/login/ with valid id', function(){
 	it('should return a token for app server' , function (done){
