@@ -1,14 +1,12 @@
 var express = require('express');
-var router = express.Router();
 var bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(bodyParser.json());
+
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../modules/config');
 var db = require('../modules/databaseManager');
 
-router.post('/login/', function(req, res,next) {
+function login(req, res){
 	console.log('id:' + req.body.id);
 	db.db.one('select * from users where id ='+req.body.id)
 	.then(function (data) {
@@ -23,7 +21,8 @@ router.post('/login/', function(req, res,next) {
 }).catch(function(err) {
 		res.status(400).send();
 		});
-});
+}
 
-
-module.exports = router;
+module.exports = {
+	login : login
+}

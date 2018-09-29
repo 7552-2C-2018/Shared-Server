@@ -18,19 +18,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var AuthController = require('./controllers/AuthController');
-var ServerController = require('./controllers/ServerController');
-var DeliveryController = require('./controllers/DeliveryController');
-var PaymentController = require('./controllers/PaymentController');
-var TrackingController = require('./controllers/TrackingController');
-var StatusController = require('./controllers/StatusController');
+var Auth = require('./routes/auth');
+var Server = require('./routes/server');
+var Delivery = require('./routes/delivery');
+var Payment = require('./routes/payment');
+var Tracking = require('./routes/tracking');
+var Status = require('./routes/status');
 
-app.use('/api/auth', AuthController);
-app.use('/api/servers', ServerController);
-app.use('/api/deliveries', DeliveryController);
-app.use('/api/payments', PaymentController);
-app.use('/api/tracking', TrackingController);
-app.use('/status', StatusController);
+app.use('/api/auth', Auth);
+app.use('/api/servers', Server);
+app.use('/api/deliveries', Delivery);
+app.use('/api/payments', Payment);
+app.use('/api/tracking', Tracking);
+app.use('/status', Status);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
