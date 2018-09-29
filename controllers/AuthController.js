@@ -15,7 +15,7 @@ function login(req, res){
       expiresIn: 86400 // expires in 24 hours
     });
 
-		 res.status(200).json({
+		 res.status(201).json({
 			auth: true, token: token
 		});
 }).catch(function(err) {

@@ -1,12 +1,5 @@
-var VerifyToken = require('../modules/VerifyToken');
 var db = require('../modules/databaseManager');
-var express = require('express');
-var router = express.Router();
-
-router.get('/', VerifyToken, function(req, res, next) {
-	res.json({message: 'Hi, this is the information of all app servers'});
-});
-
+/*
 router.post('/', VerifyToken, function(req, res, next) {
 	db.db.any('insert into users (id,name) values (10, \''+req.body.user + '\')')
 	.then(function (data) {
@@ -40,4 +33,7 @@ router.delete('/:serverId', VerifyToken, function(req, res, next) {
 
 });
 
-module.exports = router;
+module.exports = {
+	getServers : getServers,
+	addAppServer : addAppServer
+}*/

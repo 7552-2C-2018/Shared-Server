@@ -3,7 +3,7 @@ services:
   web:
     build: 
         context: .
-        dockerfile: Dockerfile.server
+        dockerfile: Dockerfile
 
     command: npm start 
     volumes:
@@ -14,16 +14,12 @@ services:
     depends_on:
       - postgres
     environment:
-            DATABASE_URL: postgres://admin:admin@postgres:5432/sharedserverdb
-            #            DATABASE_URL: postgres://ialvwdrorunhcr:5268cff7a31f61d347fa2129f5048c14bb2a3d47eca51bad9fd2927ef69f4f33@ec2-54-225-76-201.compute-1.amazonaws.com:5432/dellgcggp24vts
+            # DATABASE_URL: postgres://admin:admin@postgres:5432/sharedserverdb
+            DATABASE_URL: postgres://djqwxgjfyscimj:83a5f573529a2ccb5b12c90264ec524d233efa688690914bbd2c0f2252da1efd@ec2-54-221-210-97.compute-1.amazonaws.com:5432/debba01ukdah3q
             SECRET: secret
 
   postgres:
-          #image: postgres:9.6.2-alpi
-          build: 
-                context: .
-                dockerfile: Dockerfile.postgre
-          
+          image: postgres:9.6.2-alpine 
           restart: always
           environment:
                 POSTGRES_USER: admin
