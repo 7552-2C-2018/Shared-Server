@@ -7,7 +7,7 @@ var config = require('../modules/config');
 var db = require('../modules/databaseManager');
 
 function login(req, res){
-	db.db.one('select * from users where loginId ='+req.body.id)
+	db.db.one('select * from users where loginId ='+req.params.serverId || req.body.id)
 	.then(function (data) {
 		var duration = 86400
 		var expirationTimestamp = new Date();

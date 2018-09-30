@@ -9,7 +9,6 @@ var authController = require('../controllers/AuthController')
 
 //Get an access Tokoen
 router.post('/token', function(req, res,next) {
-  console.log('id:' + req.body.id);
 	authController.login(req, res)
 });
 

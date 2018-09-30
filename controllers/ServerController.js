@@ -1,4 +1,5 @@
 var db = require('../modules/databaseManager');
+var authController = require('../controllers/AuthController')
 
 function addServer(req,res){
   db.db.one('select Add_AppServer (\''+req.body.name + '\',\''+req.body.url+'\') as Id')
@@ -41,38 +42,43 @@ function getServerInfo(req, res){
   });
 }
 
-/*router.put('/:serverId', VerifyToken, function(req, res, next) {
-  db.db.one('select * from appservers inner join \''+ req.params.serverId+'\'')
+function modifyServer (req, res) {
+  console.log(req.body)
+  db.db.none('update appservers set name = \''+req.body.name + '\', url = \''+ req.body.url+'\' where id = \''+ req.params.serverId+'\'')
   .then(function (data) {
         res.status(200)
           .json({
             status: 'success',
             data: data,
-            message: 'Retrieved App server info'
-          });
+            message: 'Modified App server info'
+          })
         })
   .catch(function(err) {
-  		  res.status(400).send();
+        res.status(400).send();
   });
-});
-*/
+}
 
-/*router.post('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Reset Tokoen'});
-});*/
 
-/*router.delete('/:serverId', VerifyToken, function(req, res, next) {
-	db.db.any('select delete_appserver ()')
-	.then(function (data) {
-		 res.status(200).json({
-			message : 'Server deleted 10'
-		});
-});
+function refreshToken(req, res){
+  authController.login(req, res)
+}
 
-});
-*/
+function deleteServer(req, res){
+  db.db.any('select delete_appserver ('+ req.params.serverId +')')
+	 .then(function (data) {
+		  res.status(200).json({
+			    message : 'Server deleted'
+		  })
+  }).catch(function(err) {
+     res.status(400).send();
+   });
+}
+
 module.exports = {
 	getServersInfo : getServersInfo,
 	addServer : addServer,
-  getServerInfo : getServerInfo
+  getServerInfo : getServerInfo,
+  modifyServer : modifyServer,
+  deleteServer : deleteServer,
+  refreshToken : refreshToken
 }
