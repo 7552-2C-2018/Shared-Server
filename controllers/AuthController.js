@@ -6,27 +6,24 @@ var bcrypt = require('bcryptjs');
 var config = require('../modules/config');
 var db = require('../modules/databaseManager');
 
-function login(req, res){
-	db.db.one('select * from users where loginId ='+req.params.serverId || req.body.id)
-	.then(function (data) {
-		var duration = 86400
-		var expirationTimestamp = new Date();
-		expirationTimestamp.setDate(expirationTimestamp.getDate() + 1);
-		console.log(expirationTimestamp)
-		 // create a token
-    var token = jwt.sign({ id: data.id }, config.secret, {
-      expiresIn: duration
-    });
+function login(req, res) {
+  db.db.one('select * from users where loginId ='+req.params.serverId || req.body.id)
+    .then((data) => {
+      var duration = 7 * 24 * 60 * 60;
+      var token;
+      var expirationTimestamp = Math.floor(new Date().getTime() / 1000) + duration;
+      token = jwt.sign({ id: data.id }, config.secret, {
+        expiresIn: duration
+      });
 
-		 res.status(201).json({
-			expiresAt: Math.floor(expirationTimestamp / 1000), token: token
-		});
-}).catch(function(err) {
-		console.log(err)
-		res.status(400).send();
-		});
-}
+      res.status(201).json({
+        expiresAt: expirationTimestamp, token: token
+      });
+    }).catch((err) => {
+      res.status(400).send();
+});
+        }
 
 module.exports = {
-	login : login
+  login : login
 }
