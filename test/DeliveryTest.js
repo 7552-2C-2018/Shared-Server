@@ -11,7 +11,7 @@ describe('POST api/deliveries/estimate without token', function(){
 	it('should allow access to route' , function (done){
 		var token;
 		chai.request(url)
-			 .post('/api/auth/login/')
+			 .post('/api/auth/token')
 			 .send({id:10})
 			 .end( function(err,res){
 				 token = res.body.token;

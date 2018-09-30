@@ -1,39 +1,78 @@
 var db = require('../modules/databaseManager');
-/*
-router.post('/', VerifyToken, function(req, res, next) {
-	db.db.any('insert into users (id,name) values (10, \''+req.body.user + '\')')
-	.then(function (data) {
 
-		 res.status(200).json({
-			message : 'New server Created 10'
-		});
-});
-});
+function addServer(req,res){
+  db.db.one('select Add_AppServer (\''+req.body.name + '\',\''+req.body.url+'\') as Id')
+	 .then(function (data) {
+		  res.status(200).json({
+          status: 'success',
+          data : data,
+			    message : 'New server Created'
+		  });
+  });
+}
 
-router.get('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Hi, get info about a server'});
-});
+function getServersInfo(req, res){
+  db.db.any('select * from appservers')
+  .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data,
+            message: 'Retrieved App servers info'
+          });
+        })
+  .catch(function(err) {
+  		  res.status(400).send();
+  });
+}
 
-router.put('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Modify server data'});
-});
+function getServerInfo(req, res){
+  db.db.one('select * from appservers where id = \''+ req.params.serverId+'\'')
+  .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data,
+            message: 'Retrieved App server info'
+          });
+        })
+  .catch(function(err) {
+  		  res.status(400).send();
+  });
+}
 
-router.post('/:serverId', VerifyToken, function(req, res, next) {
+/*router.put('/:serverId', VerifyToken, function(req, res, next) {
+  db.db.one('select * from appservers inner join \''+ req.params.serverId+'\'')
+  .then(function (data) {
+        res.status(200)
+          .json({
+            status: 'success',
+            data: data,
+            message: 'Retrieved App server info'
+          });
+        })
+  .catch(function(err) {
+  		  res.status(400).send();
+  });
+});
+*/
+
+/*router.post('/:serverId', VerifyToken, function(req, res, next) {
 	res.json({message: 'Reset Tokoen'});
-});
+});*/
 
-router.delete('/:serverId', VerifyToken, function(req, res, next) {
-	db.db.any('delete from users where id = '+req.body.idd)
+/*router.delete('/:serverId', VerifyToken, function(req, res, next) {
+	db.db.any('select delete_appserver ()')
 	.then(function (data) {
-
 		 res.status(200).json({
 			message : 'Server deleted 10'
 		});
 });
 
 });
-
+*/
 module.exports = {
-	getServers : getServers,
-	addAppServer : addAppServer
-}*/
+	getServersInfo : getServersInfo,
+	addServer : addServer,
+  getServerInfo : getServerInfo
+}

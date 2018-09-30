@@ -5,36 +5,16 @@ var router = express.Router();
 
 var serverController = require ('../controllers/ServerController')
 
-router.get('/', VerifyToken, function(req, res, next) {
-	//serverController.getServers(req,res)
-});
+router.get('/', VerifyToken, serverController.getServersInfo, function(req, res, next) {});
 
-router.post('/', VerifyToken, function(req, res, next) {
-	//serverController.addAppServer(req, res)
-});
+router.post('/', serverController.addServer, function(req, res, next) {});
 
-router.get('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Hi, get info about a server'});
-});
+router.get('/:serverId', VerifyToken, serverController.getServerInfo, function(req, res, next) {});
+/*
+router.put('/:serverId', VerifyToken, serverController.modifyServer,  function(req, res, next) {});
 
-router.put('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Modify server data'});
-});
+router.post('/:serverId', VerifyToken, serverController.refreshToken, function(req, res, next) {});
 
-router.post('/:serverId', VerifyToken, function(req, res, next) {
-	res.json({message: 'Reset Tokoen'});
-});
-
-router.delete('/:serverId', VerifyToken, function(req, res, next) {
-	db.db.any('delete from users where id = '+req.body.idd)
-	.then(function (data) {
-
-		 res.status(200).json({
-			message : 'Server deleted 10'
-		});
-});
-
-});
-
-
+router.delete('/:serverId', VerifyToken, serverController.deleteToken, function(req, res, next) {});
+*/
 module.exports = router;
