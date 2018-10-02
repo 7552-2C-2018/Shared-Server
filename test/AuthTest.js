@@ -11,7 +11,7 @@ describe('POST api/auth/token with valid id', function(){
 	it('should return a token for app server' , function (done){
 		chai.request(url)
 			 .post('/token')
-			 .send({id:1})
+			 .send({id:3})
 			 .end( function(err,res){
 				 console.log(res.body);
 				expect(res).to.have.status(201);

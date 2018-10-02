@@ -9,6 +9,8 @@ function addServer(req,res){
           data : data,
 			    message : 'New server Created'
 		  });
+  }).catch(function(err) {
+    		  res.status(400).send();
   });
 }
 
