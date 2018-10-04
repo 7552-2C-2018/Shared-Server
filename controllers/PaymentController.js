@@ -4,19 +4,11 @@ var express = require('express');
 
 var router = express.Router();
 
-function addServer(req,res){
-  db.db.one('select Add_App Server (\''+req.body.name + '\',\''+req.body.url+'\') as Id')
-	 .then(function (data) {
-		  res.status(200).json({
-          status: 'success',
-          data : data,
-			    message : 'New server Created'
-		  });
-  });
-}
-
 function getPaymentMethods(req,res) {
-  db.db.any('select description from paymentMethods')
+  db.db.any(`select row_to_json(paymethods) as "Paymethods"
+from(
+select paymethod, json_agg(parameter) as Parameters from paymentmethods group by paymethod
+) paymethods`)
   .then(function(data) {
     res.status(200).json({
       status : 'success',
@@ -33,7 +25,9 @@ function getPaymentMethods(req,res) {
 }
 
 function getPayments(req,res){
-  db.db.any('select * from payments')
+  var query = `select transaction_id, currency, value,
+  json_build_object(expiration_month, expiration_year, number, type) paymentMethod from payments;`
+  db.db.any(query)
   .then(function(data) {
     res.status(200).json({
       status : 'success',
