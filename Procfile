@@ -1,0 +1,1 @@
+web: export SECRET=secret && export DATABASE_URL=postgres://djqwxgjfyscimj:83a5f573529a2ccb5b12c90264ec524d233efa688690914bbd2c0f2252da1efd@ec2-54-221-210-97.compute-1.amazonaws.com:5432/debba01ukdah3q?ssl=true && npm start

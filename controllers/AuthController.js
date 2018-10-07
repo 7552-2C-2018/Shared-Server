@@ -21,6 +21,7 @@ function login(req, res) {
         expiresAt: expirationTimestamp, token: token
       });
     }).catch((err) => {
+      console.log(err)
       res.status(400).send();
 });
         }

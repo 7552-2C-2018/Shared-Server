@@ -46,9 +46,9 @@ function getPayments(req,res){
 function newPayment(req, res) {
   var query = `insert into payments (payment_method, currency, value, expiration_month,
      expiration_year, number , type) values (
-      '${req.body.payment_method}', '${req.body.currency}', ${req.body.value},
-      '${req.body.expiration_month}',
-          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}')`;
+      '${req.body.paymentMethod.method}', '${req.body.currency}', ${req.body.value},
+      '${req.body.paymentMethod.expiration_month}',
+          '${req.body.paymentMethod.expiration_year}', '${req.body.paymentMethod.number}','${req.body.paymentMethod.type}')`;
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
