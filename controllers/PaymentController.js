@@ -26,7 +26,7 @@ select paymethod, json_agg(parameter) as Parameters from paymentmethods group by
 
 function getPayments(req,res){
   var query = `select transaction_id, currency, value,
-  json_build_object(expiration_month, expiration_year, number, type) paymentMethod from payments;`
+  json_build_object('expiration_month', expiration_month, 'expiration_year', expiration_year, 'number',  number, 'type', type) paymentMethod from payments;`
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
