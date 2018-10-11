@@ -5,13 +5,13 @@ var supertest = require('supertest');
 const expect = require('chai').expect;
 
 chai.use(chaiHttp);
-const url= 'http://localhost:3000/api/auth';
+const url= 'shared-server-25.herokuapp.com/api/auth';
 
 describe('POST api/auth/token with valid id', function(){
 	it('should return a token for app server' , function (done){
 		chai.request(url)
 			 .post('/token')
-			 .send({id:3})
+			 .send({id:6})
 			 .end( function(err,res){
 				 console.log(res.body);
 				expect(res).to.have.status(201);
