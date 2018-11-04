@@ -43,6 +43,24 @@ function getPayments(req,res){
 });
 }
 
+function updatePaymentState(req,res){
+  var query = `update payments set state = ${req.body.newState} where transaction_id=${req.params.transactionId};`
+  db.db.any(query)
+  .then(function(data) {
+    res.status(200).json({
+      status : 'success',
+      data : data,
+      message : 'Payment state updated!'
+    });
+  }).catch(function(err) {
+  	  res.status(400).json({
+        status : 'error',
+        data : [],
+        message : 'Error updating payment state'
+      });
+});
+}
+
 function newPayment(req, res) {
   var query = `insert into payments (payment_method, currency, value, expiration_month,
      expiration_year, number , type) values (
@@ -69,5 +87,6 @@ function newPayment(req, res) {
 module.exports = {
 	getPaymentMethods : getPaymentMethods,
 	getPayments : getPayments,
-	newPayment : newPayment
+	newPayment : newPayment,
+  updatePaymentState : updatePaymentState
 }

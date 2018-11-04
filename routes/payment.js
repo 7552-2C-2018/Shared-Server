@@ -12,6 +12,8 @@ router.get('/', VerifyToken, paymentController.getPayments, function(req, res, n
 
 router.post('/', VerifyToken, paymentController.newPayment, function(req, res, next) {});
 
+router.put('/:transactionId', VerifyToken, paymentController.updatePaymentState, function(req, res, next) {});
+
 router.get('/methods/', VerifyToken, paymentController.getPaymentMethods, function(req, res, next) {});
 
 module.exports = router;
