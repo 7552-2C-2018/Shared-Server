@@ -78,13 +78,13 @@ function updateShipmentState(req,res){
     res.status(200).json({
       status : 'success',
       data : data,
-      message : 'Payment state updated!'
+      message : 'Shipment state updated!'
     });
   }).catch(function(err) {
   	  res.status(400).json({
         status : 'error',
         data : [],
-        message : 'Error updating payment state'
+        message : 'Error updating shipment state'
       });
 });
 }
