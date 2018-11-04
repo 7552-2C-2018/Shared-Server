@@ -70,7 +70,27 @@ var query = `select row_to_json(trips) as trips
 });
 }
 
+
+function updateShipmentState(req,res){
+  var query = `update shipments set state = ${req.body.newState} where id=${req.params.trackingId};`
+  db.db.any(query)
+  .then(function(data) {
+    res.status(200).json({
+      status : 'success',
+      data : data,
+      message : 'Payment state updated!'
+    });
+  }).catch(function(err) {
+  	  res.status(400).json({
+        status : 'error',
+        data : [],
+        message : 'Error updating payment state'
+      });
+});
+}
+
 module.exports = {
 	newShipment : newShipment,
-	getShipmentInfo : getShipmentInfo
+	getShipmentInfo : getShipmentInfo,
+	updateShipmentState : updateShipmentState
 }

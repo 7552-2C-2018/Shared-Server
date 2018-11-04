@@ -12,4 +12,6 @@ router.post('/', VerifyToken, trackingController.newShipment, function(req, res,
 
 router.get('/:trackingId', VerifyToken, trackingController.getShipmentInfo, function(req, res, next) {});
 
+router.put('/:trackingId', VerifyToken, trackingController.updateShipmentState, function(req, res, next) {});
+
 module.exports = router;
