@@ -48,7 +48,7 @@ var query = `select row_to_json(trips) as trips
 	)),'timestamp', start_time) as "Start",
 	json_build_object('address', json_build_object('street', end_street, 'location', json_build_object(
 		'lat', end_lat, 'lon', end_lon
-	)),'timestamp', end_time) as "End", distance, (select
+	)),'timestamp', end_time) as "End", distance, state as "State",(select
 		json_agg(route) as route from ( select json_build_object('location', json_build_object('lat',lat, 'lon',lon) ,'timestamp', "timestamp") as Step
 		 from shipmentsteps where shipmentid = '${req.params.trackingId}' ) route),
 		json_build_object('currency', currency, 'value', "value") as "Cost"  from shipments where id = '${req.params.trackingId}') trips`;
