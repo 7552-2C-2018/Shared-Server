@@ -14,6 +14,4 @@ router.get('/', VerifyToken, trackingController.getAllShipments, function(req, r
 
 router.get('/:trackingId', VerifyToken, trackingController.getShipmentInfo, function(req, res, next) {});
 
-routerouter.get('/:trackingId', VerifyToken, trackingController.getShipmentInfo, function(req, res, next) {});r.put('/:trackingId', VerifyToken, trackingController.updateShipmentState, function(req, res, next) {});
-
 module.exports = router;
