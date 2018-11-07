@@ -10,8 +10,10 @@ var trackingController = require('../controllers/TrackingController')
 
 router.post('/', VerifyToken, trackingController.newShipment, function(req, res, next) {});
 
+router.get('/', VerifyToken, trackingController.getAllShipments, function(req, res, next) {});
+
 router.get('/:trackingId', VerifyToken, trackingController.getShipmentInfo, function(req, res, next) {});
 
-router.put('/:trackingId', VerifyToken, trackingController.updateShipmentState, function(req, res, next) {});
+routerouter.get('/:trackingId', VerifyToken, trackingController.getShipmentInfo, function(req, res, next) {});r.put('/:trackingId', VerifyToken, trackingController.updateShipmentState, function(req, res, next) {});
 
 module.exports = router;

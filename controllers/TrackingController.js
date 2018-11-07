@@ -71,6 +71,35 @@ var query = `select row_to_json(trips) as trips
 }
 
 
+function getAllShipments(req,res){
+var query = `select row_to_json(trips) as trips
+	from (select id, ownerId, json_build_object('address', json_build_object('street', start_street, 'location', json_build_object(
+		'lat', start_lat, 'lon', start_lon
+	)),'timestamp', start_time) as "Start",
+	json_build_object('address', json_build_object('street', end_street, 'location', json_build_object(
+		'lat', end_lat, 'lon', end_lon
+	)),'timestamp', end_time) as "End", distance, state as "State",(select
+		json_agg(route) as route from ( select json_build_object('location', json_build_object('lat',lat, 'lon',lon) ,'timestamp', "timestamp") as Step
+		 from shipmentsteps) route),
+		json_build_object('currency', currency, 'value', "value") as "Cost"  from shipments ) trips`;
+	console.log(query)
+	db.db.one(query)
+	 .then(function (data) {
+			res.status(200).json({
+					status: 'success',
+					data : data,
+					message : 'Shipments retrieved'
+			});
+	}).catch(function(err) {
+		console.log(err)
+      res.status(400).json({
+        status : 'error',
+        data : [],
+        message : 'Error retrieving shipments'
+      });
+});
+}
+
 function updateShipmentState(req,res){
   var query = `update shipments set state = ${req.body.newState} where id=${req.params.trackingId};`
   db.db.any(query)
@@ -92,5 +121,6 @@ function updateShipmentState(req,res){
 module.exports = {
 	newShipment : newShipment,
 	getShipmentInfo : getShipmentInfo,
-	updateShipmentState : updateShipmentState
+	updateShipmentState : updateShipmentState,
+	getAllShipments : getAllShipments
 }
