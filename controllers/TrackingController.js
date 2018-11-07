@@ -83,7 +83,7 @@ var query = `select row_to_json(trips) as trips
 		 from shipmentsteps) route),
 		json_build_object('currency', currency, 'value', "value") as "Cost"  from shipments ) trips`;
 	console.log(query)
-	db.db.one(query)
+	db.db.any(query)
 	 .then(function (data) {
 			res.status(200).json({
 					status: 'success',
