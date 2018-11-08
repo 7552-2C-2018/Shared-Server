@@ -18,6 +18,7 @@
         "http-errors": "~1.6.2",
         "jsonwebtoken": "^8.3.0",
         "morgan": "~1.9.0",
+        "node-rules": "^4.0.2",
         "pg-promise": "^5.9.7",
         "pug": "2.0.0-beta11"
     },

@@ -62,9 +62,9 @@ function updatePaymentState(req,res){
 }
 
 function newPayment(req, res) {
-  var query = `insert into payments (payment_method, currency, value, expiration_month,
+  var query = `insert into payments (currency, value, expiration_month,
      expiration_year, number , type) values (
-      '${req.body.paymentMethod.method}', '${req.body.currency}', ${req.body.value},
+      '${req.body.currency}', ${req.body.value},
       '${req.body.paymentMethod.expiration_month}',
           '${req.body.paymentMethod.expiration_year}', '${req.body.paymentMethod.number}','${req.body.paymentMethod.type}')`;
   db.db.any(query)
