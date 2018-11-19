@@ -26,7 +26,7 @@ select paymethod, json_agg(parameter) as Parameters from paymentmethods group by
 
 function getPayments(req,res){
   var query = `select transaction_id, currency, value,
-  json_build_object('expiration_month', expiration_month, 'expiration_year', expiration_year, 'number',  number, 'type', type, 'state', state) paymentMethod from payments;`
+  expiration_month, expiration_year, number, type, state from payments;`
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
@@ -65,8 +65,8 @@ function newPayment(req, res) {
   var query = `insert into payments (currency, value, expiration_month,
      expiration_year, number , type) values (
       '${req.body.currency}', ${req.body.value},
-      '${req.body.paymentMethod.expiration_month}',
-          '${req.body.paymentMethod.expiration_year}', '${req.body.paymentMethod.number}','${req.body.paymentMethod.type}')`;
+      '${req.body.expiration_month}',
+          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}')`;
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
