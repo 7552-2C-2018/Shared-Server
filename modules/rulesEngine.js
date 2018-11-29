@@ -89,7 +89,7 @@ function estimateDelivery(userId, points, price, distance, userMail) {
     var rule_SurchargeMoreThan10TripsInLast30Min = {
         "condition": function (R) {
             var amountOfShipments = 0;
-            db.db.any(`select count(*) amountOfShipments from shipments where start_time >= extract(epoch from dateadd(minute, -30,now()))`).then(function(data) { amountOfShipments = data;});
+            db.db.any(`select count(*) amountOfShipments from shipments where start_time >= extract(epoch from now() + INTERVAL '-30 minute')`).then(function(data) { amountOfShipments = data;});
             R.when(amountOfShipments > 10);
         },
         "consequence": function (R) {

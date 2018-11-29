@@ -66,7 +66,7 @@ function newPayment(req, res) {
      expiration_year, number , type) values (
       '${req.body.currency}', ${req.body.value},
       '${req.body.expiration_month}',
-          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}')`;
+          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}') RETURNING transaction_id`;
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({

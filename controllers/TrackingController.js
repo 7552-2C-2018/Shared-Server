@@ -5,12 +5,14 @@ var router = express.Router();
 
 function newShipment(req,res){
 	var aShipment = req.body;
+	var startTime = req.body.hasOwnProperty('start_timestamp') ? req.body.start_timestamp : '0';
+	var endTime = req.body.hasOwnProperty('end_timestamp') ? req.body.end_timestamp : '0';
 	var insertShipmentQuery = `insert into shipments (ownerId, start_time,
 		   start_street, start_lat, start_lon,
 		   end_time, end_street, end_lat, end_lon,
 			 distance, currency, value)
-			 values ('${aShipment.ownerid}',${aShipment.start_timestamp}, '${aShipment.start_street}', ${aShipment.start_lat}, ${aShipment.start_lon},
-			 ${aShipment.end_timestamp}, '${aShipment.end_street}', ${aShipment.end_lat}, ${aShipment.end_lon},
+			 values ('${aShipment.ownerid}',${startTime}, '${aShipment.start_street}', ${aShipment.start_lat}, ${aShipment.start_lon},
+			 ${endTime}, '${aShipment.end_street}', ${aShipment.end_lat}, ${aShipment.end_lon},
 			 ${aShipment.distance}, '${aShipment.currency}', ${aShipment.value}) RETURNING id;`;
 
 	db.db.one(insertShipmentQuery)
@@ -71,7 +73,10 @@ var query = `select * from shipments`;
 }
 
 function updateShipmentState(req,res){
-  var query = `update shipments set state = ${req.body.newState} where id=${req.params.trackingId};`
+	var startTime = req.body.hasOwnProperty('start_timestamp') ? req.body.start_timestamp : '0';
+	var endTime = req.body.hasOwnProperty('end_timestamp') ? req.body.end_timestamp : '0';
+
+  var query = `update shipments set state = ${req.body.newState}, start_timestamp = ${starTime}, end_timestamp = ${endTime} where id=${req.params.trackingId};`
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
