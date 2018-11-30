@@ -5,12 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
 
-var subpath = express();
-app.use(bodyParser());
-app.use("/v1", subpath);
-swagger.setAppHandler(subpath);
-app.use(express.static('dist'));
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
