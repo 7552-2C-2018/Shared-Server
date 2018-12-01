@@ -26,7 +26,26 @@ select paymethod, json_agg(parameter) as Parameters from paymentmethods group by
 
 function getPayments(req,res){
   var query = `select transaction_id, currency, value,
-  expiration_month, expiration_year, number, type, state from payments;`
+  expiration_month, expiration_year, number, type, state, ownerId from payments;`
+  db.db.any(query)
+  .then(function(data) {
+    res.status(200).json({
+      status : 'success',
+      data : data,
+      message : 'Payments retrieved'
+    });
+  }).catch(function(err) {
+  	  res.status(400).json({
+        status : 'error',
+        data : [],
+        message : 'Error Retrieving payment'
+      });
+});
+}
+
+function getPaymentInfo(req,res){
+  var query = `select transaction_id, currency, value,
+  expiration_month, expiration_year, number, type, state, ownerId from payments where transaction_id = ${req.params.transactionId};`
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
@@ -63,10 +82,10 @@ function updatePaymentState(req,res){
 
 function newPayment(req, res) {
   var query = `insert into payments (currency, value, expiration_month,
-     expiration_year, number , type) values (
+     expiration_year, number , type, ownerId) values (
       '${req.body.currency}', ${req.body.value},
       '${req.body.expiration_month}',
-          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}') RETURNING transaction_id`;
+          '${req.body.expiration_year}', '${req.body.number}','${req.body.type}', '${req.body.ownerId}') RETURNING transaction_id`;
   db.db.any(query)
   .then(function(data) {
     res.status(200).json({
@@ -87,6 +106,7 @@ function newPayment(req, res) {
 module.exports = {
 	getPaymentMethods : getPaymentMethods,
 	getPayments : getPayments,
+  getPaymentInfo : getPaymentInfo,
 	newPayment : newPayment,
   updatePaymentState : updatePaymentState
 }

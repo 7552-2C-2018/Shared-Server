@@ -10,6 +10,8 @@ router.use(bodyParser.json());
 
 router.get('/', VerifyToken, paymentController.getPayments, function(req, res, next) {});
 
+router.get('/:transactionId', VerifyToken, paymentController.getPaymentInfo, function(req, res, next) {});
+
 router.post('/', VerifyToken, paymentController.newPayment, function(req, res, next) {});
 
 router.put('/:transactionId', VerifyToken, paymentController.updatePaymentState, function(req, res, next) {});
