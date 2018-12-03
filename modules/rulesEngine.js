@@ -81,7 +81,7 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
         "priority" : 15,
         "condition": function (R) {
             var amountOfShipments = 0;
-            db.db.any(`select count(*) amountOfShipments from shipments where ownerId = ${userId} group by ownerId`)
+            db.db.any(`select count(*) amountOfShipments from shipments where ownerId = '${userId}' group by ownerId`)
             .then(function(data) { amountOfShipments = data; R.when(amountOfShipments == 0);});
         },
         "consequence": function (R) {
@@ -109,7 +109,7 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
         "priority" : 12,
         "condition": function (R) {
             var amountOfPayments = 0;
-            db.db.any(`select count(*) amountOfPayments from payments where ownerId = ${userId} group by ownerId`).then(function(data) { amountOfPayments = data; R.when(amountOfPayments >= 10);});
+            db.db.any(`select count(*) amountOfPayments from payments where ownerId = '${userId}' group by ownerId`).then(function(data) { amountOfPayments = data; R.when(amountOfPayments >= 10);});
         },
         "consequence": function (R) {
             cost = cost * 0.95;
@@ -123,11 +123,11 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
     R.register(rule_FreeDeliveryWithDomainMail);
     R.register(rule_PricePerKM);
     R.register(rule_DiscountWednesday);
-/*    R.register(rule_DiscountFirstTrip);
+    R.register(rule_DiscountFirstTrip);
     R.register(rule_SurchargeBusinessDays);
     R.register(rule_SurchargeMoreThan10TripsInLast30Min);
     R.register(rule_DiscountMoreThan10Buys);
-*/
+
 
     var fact = {
         "userId": userId,

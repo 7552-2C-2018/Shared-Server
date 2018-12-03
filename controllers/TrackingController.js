@@ -72,15 +72,15 @@ var query = `select * from shipments`;
 }
 
 function updateShipmentState(req,res){
-	var startTime = req.body.hasOwnProperty('start_timestamp') ? req.body.start_timestamp : '0';
-	var endTime = req.body.hasOwnProperty('end_timestamp') ? req.body.end_timestamp : '0';
+	var startTime = req.body.start_time;
+	var endTime = req.body.end_time;
 
-  var query = `update shipments set state = ${req.body.newState}, start_timestamp = `+starTime+`, end_timestamp = `+endTime`+ where id=${req.params.trackingId};`
-  db.db.any(query)
+  var query = `update shipments set state = ${req.body.newState}, start_time = ${startTime}, end_time = ${endTime} where id=${req.params.trackingId};`
+	db.db.none(query)
   .then(function(data) {
     res.status(200).json({
       status : 'success',
-      data : data,
+      data : ["State updated correctly"],
       message : 'Shipment state updated!'
     });
   }).catch(function(err) {

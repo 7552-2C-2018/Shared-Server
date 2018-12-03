@@ -5,10 +5,11 @@ var express = require('express');
 var router = express.Router();
 
 function getPaymentMethods(req,res) {
-  db.db.any(`select row_to_json(paymethods) as "Paymethods"
+  var query = `select row_to_json(paymethods) as "Paymethods"
 from(
 select paymethod, json_agg(parameter) as Parameters from paymentmethods group by paymethod
-) paymethods`)
+) paymethods;`;
+  db.db.any(query)
   .then(function(data) {
     res.status(200).json({
       status : 'success',
@@ -38,7 +39,7 @@ function getPayments(req,res){
   	  res.status(400).json({
         status : 'error',
         data : [],
-        message : 'Error Retrieving payment'
+        message : 'Error Retrieving payments'
       });
 });
 }
@@ -51,7 +52,7 @@ function getPaymentInfo(req,res){
     res.status(200).json({
       status : 'success',
       data : data,
-      message : 'Payments retrieved'
+      message : 'Payment retrieved'
     });
   }).catch(function(err) {
   	  res.status(400).json({
