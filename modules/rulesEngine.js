@@ -81,7 +81,7 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
         "priority" : 15,
         "condition": function (R) {
             var amountOfShipments = 0;
-            db.db.any(`select count(*) amountOfShipments from shipments where ownerId = '${userId}' group by ownerId`)
+            db.db.any(`select coalesce((select count(ownerId) amountOfShipments from shipments where ownerId = '${userId}' and state <> 10  group by ownerId), 0) amountOfShipments;`)
             .then(function(data) { amountOfShipments = data; R.when(amountOfShipments == 0);});
         },
         "consequence": function (R) {
@@ -93,11 +93,12 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
         }
     };
 
+
     var rule_SurchargeMoreThan10TripsInLast30Min = {
         "priority" : 13,
         "condition": function (R) {
             var amountOfShipments = 0;
-            db.db.any(`select count(*) amountOfShipments from shipments where start_time >= extract(epoch from now() + INTERVAL '-30 minute')`).then(function(data) { amountOfShipments = data;R.when(amountOfShipments > 10);});
+            db.db.any(`select coalesce((select count(*) amountOfShipments from shipments where state <> 10 and start_time >= extract(epoch from now() + INTERVAL '-30 minute')), 0) amountOfShipments;`).then(function(data) { amountOfShipments = data;R.when(amountOfShipments > 10);});
         },
         "consequence": function (R) {
             cost = cost * 1.15;
@@ -109,7 +110,7 @@ function estimateDelivery(userId, points, price, distance, userMail, res) {
         "priority" : 12,
         "condition": function (R) {
             var amountOfPayments = 0;
-            db.db.any(`select count(*) amountOfPayments from payments where ownerId = '${userId}' group by ownerId`).then(function(data) { amountOfPayments = data; R.when(amountOfPayments >= 10);});
+            db.db.any(`select coalesce((select count(*) amountOfPayments from payments where ownerId = '${userId}' and state = 8 group by ownerId), 0) amountOfPayments `).then(function(data) { amountOfPayments = data; R.when(amountOfPayments >= 10);});
         },
         "consequence": function (R) {
             cost = cost * 0.95;

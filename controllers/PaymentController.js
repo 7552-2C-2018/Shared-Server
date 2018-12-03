@@ -3,6 +3,12 @@ var db = require('../modules/databaseManager');
 var express = require('express');
 
 var router = express.Router();
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+
+const expect = require('chai').expect;
+chai.use(chaiHttp);
+const url= 'app-server-23.herokuapp.com';
 
 function getPaymentMethods(req,res) {
   var query = `select row_to_json(paymethods) as "Paymethods"
@@ -64,14 +70,26 @@ function getPaymentInfo(req,res){
 }
 
 function updatePaymentState(req,res){
-  var query = `update payments set state = ${req.body.newState} where transaction_id=${req.params.transactionId};`
+  var userId = "1234";
+	var token = "1234";
+  var paymentId = req.params.transactionId;
+  var newState = req.body.newState;
+  var query = `update payments set state = ${newState} where transaction_id=${paymentId};`
   db.db.any(query)
   .then(function(data) {
+    chai.request(url)
+    .put('/buys/paymentId='+paymentId)
+    .set('content-type', 'application/x-www-form-urlencoded')
+    .set('UserId', userId)
+    .set('Token', token)
+    .send({State:newState})
+    .end( function(err,res){
+      console.log("State change notified")
     res.status(200).json({
       status : 'success',
       data : data,
       message : 'Payment state updated!'
-    });
+    });});
   }).catch(function(err) {
   	  res.status(400).json({
         status : 'error',
