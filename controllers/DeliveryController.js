@@ -1,10 +1,9 @@
-var VerifyToken = require('../modules/VerifyToken');
 var db = require('../modules/databaseManager');
-var express = require('express');
-var router = express.Router();
+var ruleEngine = require('../modules/rulesEngine')
 
-router.post('/estimate/', VerifyToken, function(req, res, next) {
-	res.json({message: 'Estimate time'});
-});
-
-module.exports = router;
+function estimateDelivery(req, res) {
+	ruleEngine.estimateDelivery(req.body.userId, req.body.points, req.body.price, req.body.distance, req.body.userMail, res)
+}
+module.exports = {
+	estimateDelivery :estimateDelivery
+};

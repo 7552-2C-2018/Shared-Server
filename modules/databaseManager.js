@@ -11,6 +11,5 @@ var db = pgp(connectionString);
 //add query functions
 
 module.exports = {
-	//test: test
 	db : db
 };

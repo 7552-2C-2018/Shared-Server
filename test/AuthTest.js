@@ -6,12 +6,13 @@ const expect = require('chai').expect;
 
 chai.use(chaiHttp);
 const url= 'shared-server-25.herokuapp.com/api/auth';
+const testId = 6;
 
 describe('POST api/auth/token with valid id', function(){
 	it('should return a token for app server' , function (done){
 		chai.request(url)
 			 .post('/token')
-			 .send({id:6})
+			 .send({id:testId})
 			 .end( function(err,res){
 				 console.log(res.body);
 				expect(res).to.have.status(201);
