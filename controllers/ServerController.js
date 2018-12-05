@@ -4,7 +4,7 @@ var authController = require('../controllers/AuthController')
 function addServer(req,res){
   db.db.one('select Add_AppServer (\''+req.body.name + '\',\''+req.body.url+'\') as Id')
 	 .then(function (data) {
-		  res.status(200).json({
+		  res.status(201).json({
           status: 'success',
           data : data,
 			    message : 'New server Created'

@@ -83,9 +83,9 @@ function updatePaymentState(req,res){
     .set('UserId', userId)
     .set('Token', token)
     .send({State:newState})
-    .end( function(err,res){
+    .end( function(err,resNotify){
       console.log("State change notified")
-    res.status(200).json({
+      res.status(200).json({
       status : 'success',
       data : data,
       message : 'Payment state updated!'
@@ -107,7 +107,7 @@ function newPayment(req, res) {
           '${req.body.expiration_year}', '${req.body.number}','${req.body.type}', '${req.body.ownerId}') RETURNING transaction_id`;
   db.db.any(query)
   .then(function(data) {
-    res.status(200).json({
+    res.status(201).json({
       status : 'success',
       data : data,
       message : 'New Payment'

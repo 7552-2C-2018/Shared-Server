@@ -1,4 +1,4 @@
-FROM node:7
+FROM node:latest
 
 #RUN mkdir /sharedServer
 #ADD . /sharedServer
@@ -9,4 +9,3 @@ RUN npm i
 COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
-

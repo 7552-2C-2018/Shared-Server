@@ -22,7 +22,7 @@ function newShipment(req,res){
 			 ${aShipment.distance}, '${aShipment.currency}', ${aShipment.value}) RETURNING id;`;
 	db.db.one(insertShipmentQuery)
 		.then(function (data){
-				res.status(200).json({
+				res.status(201).json({
 						status: 'success',
 						data : data,
 						message : 'New shipment added'
@@ -93,7 +93,7 @@ function updateShipmentState(req,res){
     .set('UserId', userId)
     .set('Token', token)
     .send({State:newState})
-    .end( function(err,res){
+    .end( function(err,resNotify){
 			console.log("State change notified")
     	res.status(200).json({
       	status : 'success',
