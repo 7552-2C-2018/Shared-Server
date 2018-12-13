@@ -1,9 +1,0 @@
-R.register(rule_MinAmount);
-R.register(rule_PricePerKM);
-R.register(rule_DiscountWednesday);
-R.register(rule_DiscountFirstTrip);
-R.register(rule_SurchargeBusinessDays);
-R.register(rule_SurchargeMoreThan10TripsInLast30Min);
-R.register(rule_FreeDeliveryWithDomainMail);
-R.register(rule_NegativePoints);
-R.register(rule_DiscountMoreThan10Buys);

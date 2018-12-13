@@ -4,11 +4,13 @@ var express = require('express');
 var router = express.Router();
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-
+var config = require('../modules/config')
 const expect = require('chai').expect;
 chai.use(chaiHttp);
 const url= 'app-server-23.herokuapp.com';
 
+console.log("Userid:"+config.appUser);
+console.log("Token:"+config.appToken);
 function newShipment(req,res){
 	var aShipment = req.body;
 	var startTime = req.body.hasOwnProperty('start_timestamp') ? req.body.start_timestamp : '0';
@@ -78,8 +80,6 @@ var query = `select * from shipments`;
 }
 
 function updateShipmentState(req,res){
-	var userId = "1234";
-	var token = "1234";
 	var startTime = req.body.start_time;
 	var endTime = req.body.end_time;
 	var trackingId = req.params.trackingId;
@@ -88,13 +88,14 @@ function updateShipmentState(req,res){
 	db.db.none(query)
   .then(function(data) {
 		chai.request(url)
-		.put('/buys/trackingId='+trackingId)
+		.put('/buys/tracking_id='+trackingId)
 		.set('content-type', 'application/x-www-form-urlencoded')
-    .set('UserId', userId)
-    .set('Token', token)
+    .set('UserId', config.appUser)
+    .set('Token', config.appToken)
     .send({State:newState})
     .end( function(err,resNotify){
-			console.log("State change notified")
+			console.log("State change notified");
+			console.log(resNotify.statusCode);
     	res.status(200).json({
       	status : 'success',
       	data : [],

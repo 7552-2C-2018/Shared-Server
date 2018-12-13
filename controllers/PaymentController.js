@@ -1,6 +1,7 @@
 var VerifyToken = require('../modules/VerifyToken');
 var db = require('../modules/databaseManager');
 var express = require('express');
+var config = require('../modules/config')
 
 var router = express.Router();
 let chai = require('chai');
@@ -70,21 +71,20 @@ function getPaymentInfo(req,res){
 }
 
 function updatePaymentState(req,res){
-  var userId = "1234";
-	var token = "1234";
   var paymentId = req.params.transactionId;
   var newState = req.body.newState;
   var query = `update payments set state = ${newState} where transaction_id=${paymentId};`
   db.db.any(query)
   .then(function(data) {
     chai.request(url)
-    .put('/buys/paymentId='+paymentId)
+    .put('/buys/payment_id='+paymentId)
     .set('content-type', 'application/x-www-form-urlencoded')
-    .set('UserId', userId)
-    .set('Token', token)
+    .set('UserId', config.appUser)
+    .set('Token', config.appToken)
     .send({State:newState})
     .end( function(err,resNotify){
-      console.log("State change notified")
+      console.log("State change notified");
+      console.log(resNotify.statusCode);
       res.status(200).json({
       status : 'success',
       data : data,

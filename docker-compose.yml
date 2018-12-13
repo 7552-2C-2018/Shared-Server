@@ -19,7 +19,7 @@ services:
             SECRET: secret
 
   postgres:
-          image: postgres:9.6.2-alpine 
+          image: postgres:latest 
           restart: always
           environment:
                 POSTGRES_USER: admin
