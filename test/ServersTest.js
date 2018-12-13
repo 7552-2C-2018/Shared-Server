@@ -70,3 +70,25 @@ describe('POST api/servers/6', function(){
 
 		});
 });
+
+describe('PUT api/servers/serverId', function(){
+	it('should update server info' , function (done){
+		var token;
+		chai.request(url)
+			 .post('/api/auth/token/')
+			 .send({id:testId})
+			 .end( function(err,res){
+				 token = res.body.token;
+				 chai.request(url)
+						 .put('/api/servers/7')
+                         .set('x-access-token', token)
+                         .send({name:"App Server", url:"app-server-23.herokuapp.com"})
+						 .end( (err,res) =>{
+							 console.log(res.body);
+							 expect(res).to.have.status(200);
+							 done();
+						 });
+					});
+
+		});
+});
